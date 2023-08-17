@@ -5,11 +5,11 @@ import requests as r
 from bs4 import BeautifulSoup
 from numpy import nan
 import pandas as pd
-
+from datetime import datetime
 
 base_url = 'https://www.fundsexplorer.com.br/funds'
 
-with open('fiis.txt', 'r') as file: fiis = file.read().split('\n')[:]
+with open('fiis.txt', 'r') as file: fiis = file.read().split('\n')[:5]
 N = len(fiis)
 
 print('Iniciando webscraping dos dados...')
@@ -43,7 +43,7 @@ for i,fii in enumerate(fiis):
     except Exception as e:
         print(f'{fii}: Exception: {e}')
 
-fiis_df = {
+df_fiis = {
     'Ticker': [],   
     'Nome': [],
     'Preço': [],
@@ -60,12 +60,15 @@ fiis_df = {
 }
 
 for i,fii in enumerate(fiis_data):
-    fiis_df['Ticker'].append(fii)
-    for key in fiis_df.keys():
+    df_fiis['Ticker'].append(fii)
+    for key in df_fiis.keys():
         if key != 'Ticker':
-            if key in fiis_data[fii]: fiis_df[key].append(fiis_data[fii][key])
-            else: fiis_df[key].append(nan)
+            if key in fiis_data[fii]: df_fiis[key].append(fiis_data[fii][key])
+            else: df_fiis[key].append(nan)
 
+df_fiis = pd.DataFrame(df_fiis)
 
-fiis_df = pd.DataFrame(fiis_df)
-fiis_df.to_csv('fiis.csv')
+now = datetime.now()
+filename = f'FIIs-{now.year}{now.month}{now.day}-{now.hour}{now.minute}{now.second}.csv'
+
+df_fiis.to_csv(f'data/{filename}')
