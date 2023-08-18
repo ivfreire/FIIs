@@ -1,5 +1,6 @@
-# Created on Aug 15th, 2023 by Ícaro Freire (https://github.com/ivfreire)
-# São Paulo, BRAZIL
+# Created on Aug 17th, 2023.
+# Author: Icaro Freire. (https://github.com/ivfreire)
+# São Paulo, BRAZIL.
 
 import requests as r
 from bs4 import BeautifulSoup
@@ -9,7 +10,7 @@ from datetime import datetime
 
 base_url = 'https://www.fundsexplorer.com.br/funds'
 
-with open('fiis.txt', 'r') as file: fiis = file.read().split('\n')[:5]
+with open('fiis.txt', 'r') as file: fiis = file.read().split('\n')
 N = len(fiis)
 
 print('Iniciando webscraping dos dados...')
@@ -39,6 +40,14 @@ for i,fii in enumerate(fiis):
                 data = box.find_all('p')
                 fiis_data[fii][data[0].text] = float(data[1].text.replace(' ', '').replace('\n', '').replace('.', '').replace('R$', '').replace('%', '').replace('K', 'E3').replace('M', 'E6').replace(',', '.').replace('B', 'E9').replace('N/A', 'nan'))
 
+        infos = soup.find('div', class_='basicInformation__grid').find_all('div')
+        for info in infos:
+            data = info.find_all('p')
+            if data[0].text == 'Segmento':
+                fiis_data[fii][data[0].text] = data[1].text
+            if data[0].text == 'Número de cotistas' or data[0].text == 'Cotas emitidas':
+                fiis_data[fii][data[0].text] = float(data[1].text.replace('.', ''))
+
         print(f'{i+1}\t{fii}\t{(i+1)*100/N:.1f}%')
     except Exception as e:
         print(f'{fii}: Exception: {e}')
@@ -56,7 +65,10 @@ df_fiis = {
     'P/VP': [],
     'Último Dividendo': [],
     'DY Últ. Dividendo': [],
-    'Div. por Ação': []
+    'Div. por Ação': [],
+    'Cotas emitidas': [],
+    'Número de cotistas': [],
+    'Segmento': []
 }
 
 for i,fii in enumerate(fiis_data):
