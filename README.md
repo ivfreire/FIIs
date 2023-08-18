@@ -1,8 +1,5 @@
 # Análise de Fundos de Investimento Imobiliário
 
-<img src='https://img.shields.io/badge/Python-green.svg'>
-<img src='https://img.shields.io/badge/webscraping-green.svg'>
-
 Fundos de Investimento Imobiliário (FIIs) são uma modalidade de investimento coletivo que têm como principal objetivo investir em ativos ligados ao mercado imobiliário, como imóveis comerciais, residenciais, shoppings, galpões industriais, entre outros. Esses fundos são formados por recursos de diversos investidores, que adquirem cotas do fundo e, assim, se tornam proprietários indiretos dos ativos imobiliários que compõem a carteira do fundo.
 
 <img src="https://images.unsplash.com/photo-1460472178825-e5240623afd5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVpbGRpbmdzfGVufDB8fDB8fHww&w=1000&q=80">
